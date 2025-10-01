@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+<html lang="pt-PT" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Documento de Entrega de Ambientes &#8212; Documentação ambientes </title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=18e56f80"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/translations.js?v=72787d97"></script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Pesquisar" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="documento-de-entrega-de-ambientes">
+<h1>Documento de Entrega de Ambientes<a class="headerlink" href="#documento-de-entrega-de-ambientes" title="Link to this heading">¶</a></h1>
+<p>Este documento descreve os ambientes entregues, as suas configurações, os testes realizados e os utilizadores envolvidos.</p>
+<section id="links-dos-ambientes">
+<h2>1. Links dos Ambientes<a class="headerlink" href="#links-dos-ambientes" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><dl class="simple">
+<dt><strong>Ambiente de Desenvolvimento</strong></dt><dd><ul>
+<li><p>URL: <a class="reference external" href="https://dev.academiatis.local">https://dev.academiatis.local</a></p></li>
+<li><p>Máquina/Servidor: <cite>srv-dev-01</cite></p></li>
+<li><dl class="simple">
+<dt>Utilizadores existentes:</dt><dd><ul>
+<li><p>admin (Administrador)</p></li>
+<li><p>dev_user (Desenvolvedor)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Ambiente de Testes</strong></dt><dd><ul>
+<li><p>URL: <a class="reference external" href="https://test.academiatis.local">https://test.academiatis.local</a></p></li>
+<li><p>Máquina/Servidor: <cite>srv-test-01</cite></p></li>
+<li><dl class="simple">
+<dt>Utilizadores existentes:</dt><dd><ul>
+<li><p>qa_user (Qualidade)</p></li>
+<li><p>admin_test (Administrador de Testes)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Ambiente de Produção</strong></dt><dd><ul>
+<li><p>URL: <a class="reference external" href="https://www.academiatis.com">https://www.academiatis.com</a></p></li>
+<li><p>Máquina/Servidor: <cite>srv-prod-01</cite></p></li>
+<li><dl class="simple">
+<dt>Utilizadores existentes:</dt><dd><ul>
+<li><p>admin (Administrador)</p></li>
+<li><p>suporte (Equipa de Suporte)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="validacao-dos-testes">
+<h2>2. Validação dos Testes<a class="headerlink" href="#validacao-dos-testes" title="Link to this heading">¶</a></h2>
+<p>Os seguintes testes foram realizados:</p>
+<ul class="simple">
+<li><p><strong>Testes de Autenticação</strong>
+- Resultado: ✅ Sucesso
+- Observação: Login e logout validados para todos os perfis.</p></li>
+<li><p><strong>Testes de Integração</strong>
+- Resultado: ⚠️ Erro encontrado
+- Descrição: API de pagamentos retornava timeout.
+- Resolução: Ajuste no <em>timeout</em> do conector, erro corrigido.</p></li>
+<li><p><strong>Testes de Desempenho</strong>
+- Resultado: ✅ Sucesso
+- Observação: O sistema respondeu com &lt; 2s em 95% das requisições.</p></li>
+</ul>
+</section>
+<section id="arquitetura-dos-ambientes">
+<h2>3. Arquitetura dos Ambientes<a class="headerlink" href="#arquitetura-dos-ambientes" title="Link to this heading">¶</a></h2>
+<p>[imagem aqui]</p>
+<ul class="simple">
+<li><p><strong>Camada Web</strong>: Nginx + Certificados HTTPS.</p></li>
+<li><p><strong>Camada de Aplicação</strong>: Odoo + OpenEduCat.</p></li>
+<li><p><strong>Camada de Base de Dados</strong>: PostgreSQL 14.</p></li>
+<li><p><strong>Monitorização</strong>: Prometheus + Grafana.</p></li>
+</ul>
+</section>
+<section id="configuracoes-realizadas">
+<h2>4. Configurações Realizadas<a class="headerlink" href="#configuracoes-realizadas" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Configuração do <strong>Nginx</strong> para <em>reverse proxy</em> em todas as máquinas.</p></li>
+<li><p>Ativação de <strong>certificados SSL/TLS</strong> (Let’s Encrypt).</p></li>
+<li><p>Ajuste de parâmetros no <strong>PostgreSQL</strong>:
+- <cite>max_connections = 200</cite>
+- <cite>shared_buffers = 2GB</cite></p></li>
+<li><p>Criação de backups automáticos:
+- Frequência: diária
+- Retenção: 7 dias</p></li>
+<li><p>Integração com sistema de monitorização.</p></li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">ambientes</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Ir" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navegação</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Nguenany Alberto.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/desc_ambientes.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
