@@ -1,0 +1,28 @@
+image: python:3.12
+
+stages:
+  - build
+  - deploy
+
+before_script:
+  - python -m pip install --upgrade pip
+  - pip install -r requirements.txt
+
+build-docs:
+  stage: build
+  script:
+    - make html
+  artifacts:
+    paths:
+      - build/html
+    expire_in: 1 week
+
+pages:
+  stage: deploy
+  script:
+    - mv build/html public
+  artifacts:
+    paths:
+      - public
+  only:
+    - docs-source
